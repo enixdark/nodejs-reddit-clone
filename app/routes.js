@@ -8,8 +8,10 @@ module.exports = (app) => {
   let passport = app.passport
   let scope = ['email','user_posts','publish_actions']
 
-  app.get('/', (req, res) => {
-    res.render('index.ejs', {message: req.flash('error'), user: req.user })
+  app.get('/', async (req, res) => {
+    let posts = await Post.paginate({}, { limit: 20, pages: 3 })
+    console.log(posts.docs)
+    res.render('index.ejs', {message: req.flash('error'), user: req.user, posts: posts.docs })
   })
 
   app.post('/login', passport.authenticate('local-login', {
@@ -26,16 +28,31 @@ module.exports = (app) => {
 
   app.get('/post', isLoggedIn, (req, res) => {
     res.render('post.ejs', {
+      post: new Post(),
       user: req.user,
       message: req.flash('error')
     })
   })
 
-  app.post('/post', isLoggedIn, (req, res) => {
-    debugger
-    let post = new Post({user_id: req.user.id, title: req.body.title, content: req.body.content})
-    post.save()
+  app.post('/post', isLoggedIn, async (req, res) => {
+    let post = new Post({user_id: req.user.uuid, title: req.body.title, content: req.body.content})
+    await post.save()
     res.redirect('/')
+  })
+
+  app.get('/post/:uuid', isLoggedIn,async  (req, res) => {
+    let post = await Post.findOne({ user_id: req.params.uuid })
+    if(post){
+      res.render('post.ejs', {
+        post: post,
+        user: req.user,
+        message: req.flash('error')
+      })
+    }
+    else{
+      res.render('404.ejs')
+    }
+    
   })
 
   app.get('/logout', (req, res) => {

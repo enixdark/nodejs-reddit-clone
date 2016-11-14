@@ -2,17 +2,17 @@ let passport = require('passport')
 let wrap = require('nodeifyit')
 let User = require('../models/user')
 let LocalStrategy = require('passport-local').Strategy
-
+let uuid = require('node-uuid')
 async function localAuthHandler(req, username, password, done) {
-  let user = await User.promise.findOne({ 'local.username': username})
-  if (!user || username !== user.local.username) {
+  let user = await User.promise.findOne({ 'username': username})
+  if (!user || username !== user.username) {
     return [false, {message: 'Invalid username'}]
   }
 
   if (!await user.validatePassword(password)) {
     return [false, {message: 'Invalid password'}]
   }
-  user.local.token = await user.generateToken()
+  user.token = await user.generateToken()
   return user.save()
 }
 
@@ -23,7 +23,7 @@ async function localSignupHandler(req, username, password, done) {
     return [false, {message: 'password not match'}]
   }
   // Is the email taken?
-  if (await User.promise.findOne({'local.username': username})) {
+  if (await User.promise.findOne({'username': username})) {
     return [false, {message: 'That username is already taken.'}]
   }
 
@@ -34,10 +34,10 @@ async function localSignupHandler(req, username, password, done) {
   // create the user
   let user = new User()
 
-  user.local.username = username
+  user.username = username
   // Use a password hash instead of plain-text
-  user.local.password = await user.generateHash(password)
-
+  user.password = await user.generateHash(password)
+  user.uuid = uuid.v4()
   // req.flash('success', 'Login success')
   return await user.save()
 }

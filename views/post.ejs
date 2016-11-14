@@ -63,7 +63,7 @@
                         <div id="suggest-title">
                           <a href="javascript: void 0;" tabindex="100" hidden="">use suggested title</a>
                         </div>
-                        <textarea name="title" rows="2" class="title" required="" data-limit="300"></textarea>
+                        <textarea name="title" rows="2" class="title" required="" data-limit="300"><%= post.title %></textarea>
                         <div class="error NO_TEXT field-title" style="display:none"></div>
                         <div class="error TOO_LONG field-title" style="display:none"></div>
                       </div>
@@ -78,7 +78,7 @@
                         content
                       </span> 
                     <textarea name="content" id="content" rows="5" cols="80" data-limit="4000">
-                      ...
+                      <%= post.content %>
                     </textarea>
                   </div>
                 </div>

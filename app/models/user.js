@@ -1,25 +1,26 @@
 let mongoose = require('mongoose')
 let crypto = require('crypto')
 let mongoosePaginate = require('mongoose-paginate')
-mongoosePaginate.paginate.options = { 
-  lean:  true,
-  limit: 20
-}
+// mongoosePaginate.paginate.options = { 
+//   lean:  true,
+//   limit: 20,
+//   page: 3
+// }
 const PEPPER = 'salt'
 
 let userSchema = mongoose.Schema({
-  local: {
-    id: {type: String, default: null, required: true},
-    username: {type: String, default: null, required: true},
-    password: {
-      type: String, 
-      // min: [4, 'Too short, please password have to greater than 4 letters'],
-      required: true,
-      // validate: [passValidator, 'password have to least 1 uppercase ,1 lowercase letter and 1 number']
-    },
-    token: {type: String, default: null}
+  uuid: {type: String, default: null, required: true},
+  username: {type: String, default: null, required: true},
+  password: {
+    type: String, 
+    // min: [4, 'Too short, please password have to greater than 4 letters'],
+    required: true,
+    // validate: [passValidator, 'password have to least 1 uppercase ,1 lowercase letter and 1 number']
   },
-})
+  token: {type: String, default: null}
+},
+  {timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }}
+)
 
 
 function passValidator(password){
@@ -39,7 +40,6 @@ userSchema.methods.validatePassword = async function(password, type = 'local') {
   return hash.toString('hex') === this[type].password
 }
 
-userSchema.methods.validatorPassword = 
 userSchema.methods.generateToken = async function() {
   return crypto.randomBytes(64).toString('hex')
 }

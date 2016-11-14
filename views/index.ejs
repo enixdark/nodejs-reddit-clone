@@ -35,6 +35,24 @@
           <% if (typeof message !== 'undefined' && message.length > 0) { %>
            <div class="alert alert-danger"><%= message %></div>
           <% } %>
+
+           <% for(var post,i=0; post=posts[i]; i++) {%>
+             <div class="row well">
+
+              <div class="col-xs-1">
+              <p><%= post.uuid %></p>>
+              </div>
+              <div class="col-lg-9">
+                <%= post.created_at %>
+                <div class="row">
+                  <p>
+                    <strong><%= post.title %></strong>
+                    <%= post.content %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% } %>
         </div>
         <% } %>
 
