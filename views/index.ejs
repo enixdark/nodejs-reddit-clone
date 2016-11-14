@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <title>Social Feeder</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        body         { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span>Reddit</h1>
+
+        <% if (!user) { %>
+          <p>Login or Register with:</p>
+
+          <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+          <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+        <% } else { %>
+          <div class="page-header text-center">
+            <h1><span class="fa fa-home"></span> Timeline</h1>
+            <a href="/compose" class="btn btn-default btn-sm">
+              <i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;&nbsp;Compose
+            </a>
+            <a href="/profile" class="btn btn-default btn-sm">Profile</a>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+            <a href="/post" class="btn btn-default btn-sm _nex">Post</a>
+          </div>
+
+          <% if (typeof message !== 'undefined' && message.length > 0) { %>
+           <div class="alert alert-danger"><%= message %></div>
+          <% } %>
+        </div>
+        <% } %>
+
+</div>
+</body>
+</html>

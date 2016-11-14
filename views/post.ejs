@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <title>Social Feeder</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
+    <style>
+        body         { padding-top:80px; }
+        .roundfield {
+          background-color: #cee3f8;
+          border-radius: 4px;
+          font-size: large;
+          padding: 5px 10px 10px;
+          width: 100%;
+        }
+        /* form .spacer + .spacer {
+          margin: 15px 0;
+        } */
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span>Reddit</h1>
+        <% if (typeof message !== 'undefined' && message.length > 0) { %>
+          <div class="alert alert-danger"><%= message %></div>
+        <% } %>
+
+        <% if (user) { %>
+          <form method="post" action="/post">
+            <ul class="nav nav-tabs">
+              <li id="link_parent" class="active"><a data-toggle="tab" href="#link">Link</a></li>
+              <li><a id="text_parent" data-toggle="tab" href="#text">Text</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div id="link" class="tab-pane fade in active">
+                <h3>HOME</h3>
+                <p>Some content.</p>
+              </div>
+
+              <div id="text" class="tab-pane fade">
+                <div class="spacer">
+                  <div id="link-desc" class="infobar" style="display: none;">Bạn đang đệ trình một đường dẫn liên kết. Để có thể đệ trình thành công thì nội dung bạn đệ trình cần thú vị và tiêu đề cần được miêu tả rõ ràng.
+                  </div>
+                  <div id="text-desc" class="infobar" style="display: block;">Bạn đang đệ trình một bài đăng-dựa trên văn bản. Hãy thể hiện tư tưởng của bản. Trong trường hợp này thì tiêu đề là điều cần thiết, nhưng có thể mở rộng ra hơn ở khung văn bản thì không. Bắt đầu tiêu đề của bạn dưới dạng "bình chọn tăng nếu" là hoàn toàn vi phạm luật định.
+                  </div>
+                </div>
+                <p>Some content in menu 1.</p>
+
+
+                <div class="spacer">
+                  <div class="roundfield " id="title-field">
+                    <span class="title required-roundfield">
+                      <span class="RESCharCounter" title="character limit: 0/300">0/300</span>
+                        title
+                      </span> 
+                      <div class="roundfield-content">
+                        <div id="suggest-title">
+                          <a href="javascript: void 0;" tabindex="100" hidden="">use suggested title</a>
+                        </div>
+                        <textarea name="title" rows="2" class="title" required="" data-limit="300"></textarea>
+                        <div class="error NO_TEXT field-title" style="display:none"></div>
+                        <div class="error TOO_LONG field-title" style="display:none"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="spacer content_parent">
+                  <div class="roundfield" id="content-field">
+                    <span class="title required-roundfield">
+                      <span class="RESCharCounter" title="character limit: 0/4000">0/4000</span>
+                        content
+                      </span> 
+                    <textarea name="content" id="content" rows="5" cols="80" data-limit="4000">
+                      ...
+                    </textarea>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="spacer"><button class="btn" name="submit" value="form" type="submit">Gửi</button><span class="status"></span><span class="error RATELIMIT field-ratelimit" style="display:none"></span><span class="error INVALID_OPTION field-sr" style="display:none"></span><span class="error IN_TIMEOUT field-sr" style="display:none"></span></div>
+          </form>
+        <% } %>
+
+</div>
+</body>
+<script>
+  CKEDITOR.replace( 'content' )
+  $('.content_parent').hide()
+  $('#text_parent').click(function(){
+    $('.content_parent').show()
+  })
+  $('#link_parent').click(function(){
+    $('.content_parent').hide()
+  })
+</script>
+</html>
